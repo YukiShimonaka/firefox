@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+	<title>冒険うぃる</title>
+	<script type="text/javascript" src="js/maps.js"></script>
+	<script type="text/javascript" src="js/distance.js"></script>
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&language=ja"></script>
+	<script type="text/javascript" src="lib/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="lib/jquery.parse.min.js"></script>
+
+	<style>
+		#map {
+			width: 600px;
+			height: 400px;
+		}
+	</style>
+</head>
+<body>
+	<p id="msg">現在時刻と現在位置を表示</p>
+	<p>現在地を取得：<input type="button" value="表示" onclick="moveNow();"></p>
+	<p>出発地を入力：<input type="text" id="originaddress" value=""> <input type="button" value="表示" onclick="moveOrigin();"></p>
+	<p>目的地を入力：<input type="text" id="destinationaddress" value=""> <input type="button" value="表示" onclick="moveDestination();"></p>
+
+	<div id="map"></div>
+	<p></p>
+
+	<p>施設情報をマッピング：<input type="button" value="表示" onclick="markerPoints();"></p>
+
+	<p>範囲を入力：<input type="text" id="range" value="">km <input type="button" value="設定" onclick="range();"></p>
+
+	<div id="content-pane">
+      <div id="inputs">
+		<p><button type="button" onclick="calculateDistances();">Calculate distances</button></p>
+      </div>
+      <div id="outputDiv"></div>
+    </div>
+
+	<p>範囲内の施設をマッピング：<input type="button" value="表示" onclick="rangeMarker();"></p>
+
+	<button id="button">時間表示</button>
+
+	<form>
+		<input id="search" type="button" value="CSVから情報を取得する">
+	</form>
+
+	<script>
+		var lim = 19;
+		var range;
+
+		// アイコンの読み込み
+		var destinationIcon = 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=D|FF0000|000000';
+		var originIcon = 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=O|FFFF00|000000';
+
+		var x_pos = [];
+		var y_pos = [];
+		var loadflg = false;
+		var rangeflg = [];
+		var flg = false;
+
+		// デフォルトマップの表示
+		var latlng0 = new google.maps.LatLng(34.70231812661275, 135.49558639526367);
+		var options = {
+			zoom: 15,
+			center: latlng0,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var map = new google.maps.Map(document.getElementById('map'), options);
+
+		var geocoder = new google.maps.Geocoder();
+
+		// マーカーに関する関数
+		click_marker();
+
+		// 現在時刻表示
+		time();
+
+		var bounds = new google.maps.LatLngBounds();
+		var markersArray = [];
+
+		var origins;
+		var destinations = [];
+
+	</script>
+
+	<div id="result"></div>
+	<script type="text/javascript" src="js/dataload1.js"></script>
+
+</body>
+</html>
